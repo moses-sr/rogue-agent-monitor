@@ -1,35 +1,53 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Spot the Rogue Agent</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0f1115;--panel:#171a21;--line:#2a2f3a;--text:#e6e8ec;--muted:#8b93a3;--good:#3ccf91;--bad:#ff5d5d;--warn:#f5b84b;--accent:#d97757}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px/1.5 -apple-system,BlinkMacSystemFont,"Inter",system-ui,sans-serif}
-.wrap{max-width:1240px;margin:0 auto;padding:28px 22px 60px}
-h1{font-size:28px;margin:0 0 4px;letter-spacing:-.02em}.sub{color:var(--muted);margin:0 0 22px;max-width:900px}
-.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px}
-.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
-.kpi .n{font-size:28px;font-weight:700;letter-spacing:-.02em}.kpi .l{color:var(--muted);font-size:12.5px}
-.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 10px}
-.tab{background:var(--panel);border:1px solid var(--line);color:var(--text);padding:8px 14px;border-radius:999px;cursor:pointer;font-size:13px}
-.tab.on{background:var(--accent);border-color:var(--accent);color:#fff}
-.desc{color:var(--muted);margin:0 0 14px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}
-.card h3{margin:0 0 2px;font-size:15px}.card .meta{color:var(--muted);font-size:12.5px;margin-bottom:8px}
-.verdict{font-weight:600;font-size:13px;margin-top:8px}
-.ctrl{display:flex;align-items:center;gap:12px;margin:14px 0}
-button.play{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:8px 16px;font-weight:600;cursor:pointer}
-input[type=range]{flex:1;accent-color:var(--accent)}
-.legend{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin:6px 0 0}
+/* Green-bar ledger paper, navy ink, red ink for the rogue, marker yellow for the monitor's pick. */
+:root{--desk:#eef2ea;--paper:#fbfdf9;--bar:#dfecd9;--rule:#9fbba0;--ink:#13223b;--graphite:#56606e;--red:#c2182b;--marker:#ffe24a;
+ --sans:"Archivo","Helvetica Neue",Arial,sans-serif;--type:"Courier Prime","Courier New",monospace;
+ --bg:var(--desk);--panel:var(--paper);--line:var(--rule);--text:var(--ink);--muted:var(--graphite);--good:var(--ink);--bad:var(--red);--warn:var(--marker);--accent:var(--ink)}
+*{box-sizing:border-box}body{margin:0;background:var(--desk);color:var(--ink);font:16px/1.4 var(--sans)}
+.wrap{max-width:1500px;margin:0 auto;padding:18px 24px 48px}
+h1{font-size:clamp(2rem,3.4vw,3.4rem);font-weight:800;font-stretch:125%;letter-spacing:-.02em;line-height:1;margin:0 0 8px}
+.sub{color:var(--graphite);margin:0 0 20px;max-width:78ch;font-size:1.05rem}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:22px}
+.kpi{background:var(--paper);border:1.5px solid var(--rule);border-top:6px solid var(--rule);padding:10px 14px 12px}
+.kpi .n{font-family:var(--type);font-size:1.9rem;font-weight:700;line-height:1.15}.kpi .l{color:var(--graphite);font-size:.85rem}
+.tabs{display:flex;flex-wrap:wrap;margin:6px 0 8px}
+.tab{flex:1 1 auto;background:var(--paper);border:1.5px solid var(--ink);color:var(--ink);padding:.5rem .8rem;margin:0 -1.5px -1.5px 0;cursor:pointer;font:600 1.05rem var(--sans)}
+.tab:hover{background:var(--bar)}.tab.on{background:var(--ink);color:var(--paper)}
+.desc{color:var(--graphite);margin:0 0 12px;font-size:.95rem}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.card{background:var(--paper);border:1.5px solid var(--rule);padding:14px 16px}
+.card h3{margin:0 0 2px;font-size:1.25rem;font-weight:700}.card .meta{color:var(--graphite);font-size:.9rem;margin-bottom:8px}
+.verdict{font-weight:600;font-size:1.02rem;margin-top:10px;padding:.45rem .6rem;background:var(--bar);border-left:5px solid var(--ink)}
+.ctrl{display:flex;align-items:center;gap:12px;margin:12px 0}
+button.play{background:var(--ink);color:var(--paper);border:1.5px solid var(--ink);border-radius:3px;padding:.4rem 1.1rem;font:700 1rem var(--sans);cursor:pointer;min-width:5.5rem}
+input[type=range]{flex:1;accent-color:var(--ink)}
+:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+.legend{display:flex;gap:16px;flex-wrap:wrap;color:var(--graphite);font-size:.85rem;margin:8px 0 0}
 .legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px}
-table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:right}
-th:first-child,td:first-child,th:nth-child(2),td:nth-child(2){text-align:left}th{color:var(--muted);font-weight:500}
-tr.ours td{background:rgba(217,119,87,.08)}.good{color:var(--good)}.bad{color:var(--bad)}
-h2{font-size:18px;margin:30px 0 10px}.note{color:var(--muted);font-size:12.5px}
+.legend i.ref{border-radius:0;transform:rotate(45deg);border:1.5px solid var(--ink)}
+table{width:100%;border-collapse:collapse;font-family:var(--type);font-size:.95rem;font-variant-numeric:tabular-nums}
+th,td{padding:.33rem .7rem;text-align:right;border-left:1px solid var(--rule)}
+th:first-child,td:first-child{border-left:0}
+th:first-child,td:first-child,th:nth-child(2),td:nth-child(2){text-align:left}
+th{font:700 .85rem var(--sans);font-stretch:85%;border-bottom:2px solid var(--ink)}
+td:first-child{font-family:var(--sans)}
+tr:nth-child(even) td{background:var(--bar)}
+tr.ours td{font-weight:700}tr.ours td:nth-child(2){box-shadow:inset 5px 0 0 var(--marker)}
+.card:has(>table){padding:0}
+.good{color:var(--ink)}.bad{color:var(--red)}
+h2{font-size:1.25rem;font-weight:700;margin:26px 0 8px;padding-top:12px;border-top:2px solid var(--ink)}
+.note{color:var(--graphite);font-size:.85rem}
 .lean{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:8px}
-.lean div{background:#11141a;border:1px solid var(--line);border-radius:8px;padding:6px;text-align:center;font-size:12px}
-.lean b{display:block;font-size:16px}
-ul{margin:6px 0;padding-left:18px}li{margin:3px 0}
+.lean div{background:var(--paper);border:1.5px solid var(--rule);border-top-width:5px;padding:6px;text-align:center;font-size:.8rem;color:var(--graphite)}
+.lean b{display:block;font-family:var(--type);font-size:1.3rem}
+ul{margin:6px 0;padding-left:20px;max-width:100ch}li{margin:5px 0}
+svg text{font-family:var(--sans)}
+@media (max-width:900px){.grid{grid-template-columns:1fr}.kpis{grid-template-columns:1fr 1fr}}
 </style></head><body><div class="wrap">
 <h1>Spot the Rogue Agent</h1>
 <p class="sub">Five AI agents check the same books. One has been turned by an outside party and quietly pushes the numbers. Honest agents make real mistakes too, so being wrong once proves nothing. The monitor never sees the true number. We built six saboteurs, each sneakier than the last, and two monitors to beat the organizers' baseline.</p>
@@ -40,7 +58,7 @@ ul{margin:6px 0;padding-left:18px}li{margin:3px 0}
 <p class="desc" id="rdesc"></p>
 <div class="ctrl"><button class="play" id="play">Play</button><input type="range" id="slider" min="1" max="12" value="12"><span id="rlabel" class="note"></span></div>
 <div class="grid" id="games"></div>
-<div class="legend"><span><i style="background:var(--bad)"></i>the rogue</span><span><i style="background:#7aa2ff"></i>honest agents</span><span><i style="background:var(--warn)"></i>referee</span><span>dots above the line: answer too high, below: too low</span><span>&#x2715; quarantined</span></div>
+<div class="legend"><span><i style="background:var(--bad)"></i>the rogue</span><span><i style="background:var(--ink)"></i>honest agents</span><span><i class="ref" style="background:var(--warn)"></i>referee</span><span>dots above the line: answer too high, below: too low</span><span>&#x2715; quarantined</span></div>
 
 <h2>All results</h2>
 <p class="note" id="tnote"></p>
@@ -78,18 +96,18 @@ function svgGame(game){
   const W=560,H=230,pad=34, rows=game.rounds, n=D.rounds;
   const x = r => pad + (r-1)*(W-pad*2)/(n-1);
   const y = d => H/2 - Math.max(-40,Math.min(40,d))*(H/2-18)/40;
-  let s = `<svg viewBox="0 0 ${W} ${H}" width="100%"><line x1="${pad}" x2="${W-pad}" y1="${H/2}" y2="${H/2}" stroke="#3a4150"/>`;
-  [20,-20].forEach(d=>s+=`<line x1="${pad}" x2="${W-pad}" y1="${y(d)}" y2="${y(d)}" stroke="#20242d" stroke-dasharray="3 4"/><text x="4" y="${y(d)+4}" fill="#5d6574" font-size="10">${d>0?"+":""}${d}%</text>`);
-  s += `<text x="4" y="${H/2+4}" fill="#5d6574" font-size="10">true</text>`;
-  for(let r=1;r<=n;r++) s+=`<text x="${x(r)}" y="${H-4}" fill="#5d6574" font-size="10" text-anchor="middle">${r}</text>`;
+  let s = `<svg viewBox="0 0 ${W} ${H}" width="100%"><line x1="${pad}" x2="${W-pad}" y1="${H/2}" y2="${H/2}" stroke="var(--ink)"/>`;
+  [20,-20].forEach(d=>s+=`<line x1="${pad}" x2="${W-pad}" y1="${y(d)}" y2="${y(d)}" stroke="var(--rule)" stroke-dasharray="3 4"/><text x="4" y="${y(d)+4}" fill="var(--graphite)" font-size="10">${d>0?"+":""}${d}%</text>`);
+  s += `<text x="4" y="${H/2+4}" fill="var(--graphite)" font-size="10">true</text>`;
+  for(let r=1;r<=n;r++) s+=`<text x="${x(r)}" y="${H-4}" fill="var(--graphite)" font-size="10" text-anchor="middle">${r}</text>`;
   let qi=0;
   rows.filter(o=>o.r<=step).forEach(o=>{
     [[o.a,o.ans_a],[o.b,o.ans_b]].forEach(([ag,val],i)=>{
       const d=(val-o.v)/o.v*100, rogue=ag===game.rogue, cx=x(o.r)+(i?5:-5);
-      s+=`<circle cx="${cx}" cy="${y(d)}" r="${rogue?6:4.5}" fill="${rogue?"var(--bad)":"#7aa2ff"}" opacity="${rogue?1:.85}"><title>A${ag}${rogue?" (rogue)":""}: ${val} vs true ${o.v}</title></circle>`;
-      if(Math.abs(d)>0.01) s+=`<line x1="${cx}" x2="${cx}" y1="${H/2}" y2="${y(d)}" stroke="${rogue?"var(--bad)":"#7aa2ff"}" opacity=".35"/>`;
+      s+=`<circle cx="${cx}" cy="${y(d)}" r="${rogue?6:4.5}" fill="${rogue?"var(--bad)":"var(--ink)"}" opacity="${rogue?1:.85}"><title>A${ag}${rogue?" (rogue)":""}: ${val} vs true ${o.v}</title></circle>`;
+      if(Math.abs(d)>0.01) s+=`<line x1="${cx}" x2="${cx}" y1="${H/2}" y2="${y(d)}" stroke="${rogue?"var(--bad)":"var(--ink)"}" opacity=".35"/>`;
     });
-    if(o.ref!==null){const d=(o.ref_ans-o.v)/o.v*100; s+=`<rect x="${x(o.r)-3.5}" y="${y(d)-3.5}" width="7" height="7" fill="var(--warn)" transform="rotate(45 ${x(o.r)} ${y(d)})"><title>referee A${o.ref}</title></rect>`;}
+    if(o.ref!==null){const d=(o.ref_ans-o.v)/o.v*100; s+=`<rect x="${x(o.r)-3.5}" y="${y(d)-3.5}" width="7" height="7" fill="var(--warn)" stroke="var(--ink)" stroke-width="1.2" transform="rotate(45 ${x(o.r)} ${y(d)})"><title>referee A${o.ref}</title></rect>`;}
     if(o.q!==null) s+=`<text x="${x(o.r)}" y="${14+(qi++%2)*14}" fill="${o.q===game.rogue?"var(--good)":"var(--bad)"}" font-size="12" font-weight="700" text-anchor="middle">&#x2715; A${o.q}${o.q===game.rogue?" rogue":" honest"}</text>`;
   });
   return s+"</svg>";
@@ -100,12 +118,12 @@ function card(m){
   const caught = removed.includes(game.rogue), honest = removed.filter(a=>a!==game.rogue).length;
   const ended = game.rounds.length < D.rounds && step >= game.rounds.length;
   const lean = [0,1,2,3,4].map(a=>{const v=last.lean[a]; const out=removed.includes(a);
-    return `<div style="${a===game.rogue?"border-color:var(--bad)":""};${out?"opacity:.45":""}">A${a}${a===game.rogue?" rogue":""}<b style="color:${v>0?"var(--bad)":v<0?"#7aa2ff":"var(--muted)"}">${v>0?"+":""}${v}</b>${out?"removed":"lean"}</div>`}).join("");
+    return `<div style="${a===game.rogue?"border-color:var(--bad)":""};${out?"opacity:.5;border-style:dashed":""}">A${a}${a===game.rogue?" rogue":""}<b style="color:${v===0?"var(--muted)":"var(--ink)"}">${v>0?"+":""}${v}</b>${out?"removed":"lean"}</div>`}).join("");
   const label = m==="baseline" ? "Baseline: two strikes and out" : "Ours: direction + referee";
   const how = m==="baseline" ? "Both agents in any disagreement get a strike." : "Counts who is always the high one, and asks a third agent to redo disputed items.";
   return `<div class="card"><h3>${label}</h3><div class="meta">${how}</div>${svgGame(game)}
    <div class="note">Lean = times the agent was the higher answer minus times it was the lower one, in disagreements.</div><div class="lean">${lean}</div>
-   <div class="verdict">${caught?'<span class="good">Rogue removed</span>':'<span class="bad">Rogue still in</span>'} &middot; ${honest} honest agent${honest===1?"":"s"} wrongly removed &middot; books off by ${Math.abs(last.drift).toFixed(1)}%${ended?' &middot; <span class="bad">team wiped out, game over</span>':""}</div></div>`;
+   <div class="verdict">${caught?'<span class="good">Rogue removed</span>':'<span class="bad">Rogue still in</span>'}, ${honest} honest agent${honest===1?"":"s"} wrongly removed, books off by ${Math.abs(last.drift).toFixed(1)}%${ended?', <span class="bad">team wiped out, game over</span>':""}</div></div>`;
 }
 function render(){
   [...tabs.children].forEach(b=>b.classList.toggle("on",b.dataset.k===cur));
