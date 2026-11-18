@@ -1,0 +1,305 @@
+/* Styles for the home page (components/Books.tsx), ported from ../dashboard_template.html.
+   Everything is scoped under .books so it does not touch the /replay page.
+   Colour and font tokens come from app/globals.css. */
+
+.books {
+  font: 16px/1.4 var(--sans);
+}
+
+.books .wrap {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 18px 24px 48px;
+}
+
+.books h1 {
+  font-size: clamp(2rem, 3.4vw, 3.4rem);
+  font-weight: 800;
+  font-stretch: 125%;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin: 0 0 8px;
+}
+
+.books .sub {
+  color: var(--graphite);
+  margin: 0 0 20px;
+  max-width: 78ch;
+  font-size: 1.05rem;
+}
+
+.books .kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.books .kpi {
+  background: var(--paper);
+  border: 1.5px solid var(--rule);
+  border-top: 6px solid var(--rule);
+  padding: 10px 14px 12px;
+}
+
+.books .kpi .n {
+  font-family: var(--type);
+  font-size: 1.9rem;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.books .kpi .l {
+  color: var(--graphite);
+  font-size: 0.85rem;
+}
+
+.books h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 26px 0 8px;
+  padding-top: 12px;
+  border-top: 2px solid var(--ink);
+}
+
+.books .tabs {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 6px 0 8px;
+}
+
+.books .tab {
+  flex: 1 1 auto;
+  background: var(--paper);
+  border: 1.5px solid var(--ink);
+  border-radius: 0;
+  color: var(--ink);
+  padding: 0.5rem 0.8rem;
+  margin: 0 -1.5px -1.5px 0;
+  font: 600 1.05rem var(--sans);
+}
+
+.books .tab:hover {
+  background: var(--bar);
+}
+
+.books .tab.on {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.books .desc {
+  color: var(--graphite);
+  margin: 0 0 12px;
+  font-size: 0.95rem;
+}
+
+.books .ctrl {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 12px 0;
+}
+
+.books .play,
+.books .play:hover {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 0.4rem 1.1rem;
+  font-weight: 700;
+  min-width: 5.5rem;
+}
+
+.books input[type="range"] {
+  flex: 1;
+  accent-color: var(--ink);
+}
+
+.books .grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.books .card {
+  background: var(--paper);
+  border: 1.5px solid var(--rule);
+  padding: 14px 16px;
+}
+
+.books .card.table-card {
+  padding: 0;
+  overflow-x: auto;
+}
+
+.books .card h3 {
+  margin: 0 0 2px;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.books .card .meta {
+  color: var(--graphite);
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
+.books .note {
+  color: var(--graphite);
+  font-size: 0.85rem;
+}
+
+.books .lean {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.books .lean div {
+  background: var(--paper);
+  border: 1.5px solid var(--rule);
+  border-top-width: 5px;
+  padding: 6px;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--graphite);
+}
+
+.books .lean div.is-rogue {
+  border-color: var(--red);
+}
+
+.books .lean div.is-out {
+  opacity: 0.5;
+  border-style: dashed;
+}
+
+.books .lean b {
+  display: block;
+  font-family: var(--type);
+  font-size: 1.3rem;
+  color: var(--ink);
+}
+
+.books .lean b.is-zero {
+  color: var(--graphite);
+}
+
+.books .verdict {
+  font-weight: 600;
+  font-size: 1.02rem;
+  margin-top: 10px;
+  padding: 0.45rem 0.6rem;
+  background: var(--bar);
+  border-left: 5px solid var(--ink);
+}
+
+.books .good {
+  color: var(--ink);
+}
+
+.books .bad {
+  color: var(--red);
+}
+
+.books .legend {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  color: var(--graphite);
+  font-size: 0.85rem;
+  margin: 8px 0 0;
+}
+
+.books .legend i {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 5px;
+  vertical-align: -1px;
+}
+
+.books .legend i.ref {
+  border-radius: 0;
+  transform: rotate(45deg);
+  border: 1.5px solid var(--ink);
+}
+
+.books .legend a {
+  margin-left: auto;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.books table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--type);
+  font-size: 0.95rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.books th,
+.books td {
+  padding: 0.33rem 0.7rem;
+  text-align: right;
+  border-left: 1px solid var(--rule);
+}
+
+.books th:first-child,
+.books td:first-child {
+  border-left: 0;
+}
+
+.books th:first-child,
+.books td:first-child,
+.books th:nth-child(2),
+.books td:nth-child(2) {
+  text-align: left;
+}
+
+.books th {
+  font: 700 0.85rem var(--sans);
+  font-stretch: 85%;
+  border-bottom: 2px solid var(--ink);
+}
+
+.books td:first-child {
+  font-family: var(--sans);
+}
+
+.books tbody tr:nth-child(odd) td {
+  background: var(--bar);
+}
+
+.books tr.ours td {
+  font-weight: 700;
+}
+
+.books tr.ours td:nth-child(2) {
+  box-shadow: inset 5px 0 0 var(--marker);
+}
+
+.books svg text {
+  font-family: var(--sans);
+}
+
+@media (max-width: 900px) {
+  .books .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .books .kpis {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .books .legend a {
+    margin-left: 0;
+  }
+}
+
+.books p.note {
+  margin: 0 0 8px;
+}

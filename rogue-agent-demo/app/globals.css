@@ -722,3 +722,10 @@ h1 {
   text-align: left;
   padding-left: 0.6rem;
 }
+
+.source-actions a {
+  align-self: center;
+  color: var(--ink);
+  font-weight: 600;
+  margin-right: 0.4rem;
+}
