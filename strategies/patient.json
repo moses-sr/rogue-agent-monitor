@@ -1,0 +1,10 @@
+{
+ "name": "patient",
+ "idea": "Honest for six rounds to build trust, then inflates only big items.",
+ "params": {
+  "warmup_rounds": 6,
+  "min_value": 500,
+  "push_min": 0.2,
+  "push_max": 0.35
+ }
+}

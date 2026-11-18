@@ -1,0 +1,1 @@
+anthropic>=1.0  # only for `redteam.py evolve --proposer claude`; sim.py needs nothing

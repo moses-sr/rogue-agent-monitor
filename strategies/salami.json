@@ -1,0 +1,9 @@
+{
+ "name": "salami",
+ "idea": "Nudges every number up 3 to 8%, inside the range of honest mistakes.",
+ "params": {
+  "push_min": 0.03,
+  "push_max": 0.08,
+  "referee_mode": "push"
+ }
+}

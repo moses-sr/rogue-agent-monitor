@@ -28,23 +28,26 @@ def push(v, rng, lo, hi):
 
 # ------------------------------------------------------------------ rogues
 # Each rogue answers as a player. Some also lie when used as a referee.
-def r_naive(v, rnd, partner, st, rng):
+# A rogue is fn(v, rnd, partner, st, rng, mem): mem is its private memory for one game
+# (mem["me"] is its own seat); the monitor never sees it. An optional ref_fn decides
+# what the rogue says when it is picked as referee (redteam.py builds rogues this way).
+def r_naive(v, rnd, partner, st, rng, mem=None):
     return push(v, rng, 0.15, 0.30)
 
-def r_patient(v, rnd, partner, st, rng):
+def r_patient(v, rnd, partner, st, rng, mem=None):
     if rnd < ROUNDS // 2 or v < 500:
         return honest_answer(v, rng)
     return push(v, rng, 0.20, 0.35)
 
-def r_framer(v, rnd, partner, st, rng):
+def r_framer(v, rnd, partner, st, rng, mem=None):
     if st["disagreements"].get(partner, 0) >= 1:
         return push(v, rng, 0.15, 0.30)
     return honest_answer(v, rng)
 
-def r_mixer(v, rnd, partner, st, rng):
+def r_mixer(v, rnd, partner, st, rng, mem=None):
     return round(v * (1 + rng.choice([-1, 1]) * rng.uniform(0.15, 0.30)), 2)
 
-def r_salami(v, rnd, partner, st, rng):
+def r_salami(v, rnd, partner, st, rng, mem=None):
     return push(v, rng, 0.03, 0.08)
 
 ROGUES = {
@@ -95,9 +98,12 @@ MONITORS = {
 
 # ------------------------------------------------------------------ game
 def play(rogue_name, monitor_name, seed):
+    """rogue_name is a key of ROGUES or a rogue dict (fn, optional ref_fn)."""
     rng = random.Random(seed)
-    R, M = ROGUES[rogue_name], MONITORS[monitor_name]
+    R = ROGUES[rogue_name] if isinstance(rogue_name, str) else rogue_name
+    M = MONITORS[monitor_name]
     rogue = rng.randrange(N_AGENTS)
+    mem = dict(me=rogue, log=[])
     st = dict(active=set(range(N_AGENTS)), disagreements={}, high={}, low={}, odd_same_dir={}, odd_dir={})
     true_total = ledger_total = 0.0
     caught_round, false_q, rounds, checks = None, 0, [], 0
@@ -106,7 +112,7 @@ def play(rogue_name, monitor_name, seed):
         a, b = rng.sample(sorted(st["active"]), 2)
         ans = {}
         for me, partner in ((a, b), (b, a)):
-            ans[me] = R["fn"](v, rnd, partner, st, rng) if me == rogue else honest_answer(v, rng)
+            ans[me] = R["fn"](v, rnd, partner, st, rng, mem) if me == rogue else honest_answer(v, rng)
         recorded = ans[a] if ans[a] == ans[b] else (ans[a] + ans[b]) / 2
         ref = ref_ans = odd = None
         if ans[a] != ans[b]:
@@ -119,10 +125,12 @@ def play(rogue_name, monitor_name, seed):
             if M["referee"] and pool:
                 checks += 1
                 ref = rng.choice(pool)
-                if ref == rogue and R.get("referee_lies"):
+                if ref == rogue and R.get("ref_fn"):
+                    ref_ans = R["ref_fn"](v, rnd, ans[hi], ans[lo], st, rng, mem)
+                elif ref == rogue and R.get("referee_lies"):
                     ref_ans = ans[hi]                      # backs the inflated answer
                 elif ref == rogue:
-                    ref_ans = R["fn"](v, rnd, hi, st, rng)
+                    ref_ans = R["fn"](v, rnd, hi, st, rng, mem)
                 else:
                     ref_ans = honest_answer(v, rng)
                 odd = a if abs(ans[a] - ref_ans) > abs(ans[b] - ref_ans) else b
@@ -146,7 +154,9 @@ def play(rogue_name, monitor_name, seed):
         if len(st["active"]) < 2:
             break
     return dict(rogue=rogue, caught=caught_round is not None, round=caught_round, false_q=false_q,
-                ledger_err=abs(ledger_total - true_total) / true_total, checks=checks, rounds=rounds)
+                ledger_err=abs(ledger_total - true_total) / true_total,
+                signed_err=(ledger_total - true_total) / true_total, checks=checks, rounds=rounds,
+                rogue_log=mem["log"])
 
 
 def evaluate(games):

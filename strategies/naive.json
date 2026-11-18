@@ -1,0 +1,9 @@
+{
+ "name": "naive",
+ "idea": "Inflates every item it touches, also as referee.",
+ "params": {
+  "push_min": 0.15,
+  "push_max": 0.3,
+  "referee_mode": "push"
+ }
+}

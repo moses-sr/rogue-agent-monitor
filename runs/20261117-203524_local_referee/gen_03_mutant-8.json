@@ -1,0 +1,59 @@
+{
+ "gen": 3,
+ "strategy": {
+  "name": "mutant-8",
+  "idea": "local mutation of patient",
+  "params": {
+   "warmup_rounds": 6,
+   "min_value": 407.452,
+   "strike_prob": 0.888,
+   "push_min": 0.2,
+   "push_max": 0.35,
+   "down_prob": 0.0,
+   "frame_min": 0,
+   "max_strikes": 12,
+   "cooldown": 0,
+   "lean_cap": 12,
+   "decoy_prob": 0.0,
+   "decoy_size": 0.05,
+   "referee_mode": "honest"
+  }
+ },
+ "metrics": {
+  "none": {
+   "catch": 0.0,
+   "median_round": null,
+   "false_q": 0,
+   "ledger_err_pct": 2.313,
+   "push_pct": 1.905,
+   "strikes": 1.39
+  },
+  "baseline": {
+   "catch": 0.7167,
+   "median_round": 9,
+   "false_q": 2.17,
+   "ledger_err_pct": 2.102,
+   "push_pct": 1.475,
+   "strikes": 1.04
+  },
+  "direction": {
+   "catch": 0.4733,
+   "median_round": 9.0,
+   "false_q": 0.89,
+   "ledger_err_pct": 2.237,
+   "push_pct": 1.727,
+   "strikes": 1.23
+  },
+  "referee": {
+   "catch": 0.51,
+   "median_round": 10,
+   "false_q": 0.437,
+   "ledger_err_pct": 0.642,
+   "push_pct": 0.274,
+   "strikes": 1.18
+  }
+ },
+ "fitness": 0.1343,
+ "proposer": "local",
+ "api": {}
+}

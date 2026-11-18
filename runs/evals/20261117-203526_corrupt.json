@@ -1,0 +1,57 @@
+{
+ "strategy": {
+  "name": "corrupt",
+  "idea": "Inflates as a player, and as referee backs the higher answer to frame the honest agent.",
+  "params": {
+   "warmup_rounds": 0,
+   "min_value": 100.0,
+   "strike_prob": 1.0,
+   "push_min": 0.15,
+   "push_max": 0.3,
+   "down_prob": 0.0,
+   "frame_min": 0,
+   "max_strikes": 12,
+   "cooldown": 0,
+   "lean_cap": 12,
+   "decoy_prob": 0.0,
+   "decoy_size": 0.05,
+   "referee_mode": "back_high"
+  }
+ },
+ "metrics": {
+  "none": {
+   "catch": 0.0,
+   "median_round": null,
+   "false_q": 0,
+   "ledger_err_pct": 4.431,
+   "push_pct": 4.365,
+   "strikes": 4.65
+  },
+  "baseline": {
+   "catch": 0.962,
+   "median_round": 4,
+   "false_q": 2.44,
+   "ledger_err_pct": 2.72,
+   "push_pct": 2.409,
+   "strikes": 2.11
+  },
+  "direction": {
+   "catch": 0.948,
+   "median_round": 5.0,
+   "false_q": 1.178,
+   "ledger_err_pct": 2.54,
+   "push_pct": 2.317,
+   "strikes": 2.41
+  },
+  "referee": {
+   "catch": 0.962,
+   "median_round": 5,
+   "false_q": 0.516,
+   "ledger_err_pct": 0.956,
+   "push_pct": 0.659,
+   "strikes": 2.19
+  }
+ },
+ "games": 500,
+ "honest_err": 0.15
+}

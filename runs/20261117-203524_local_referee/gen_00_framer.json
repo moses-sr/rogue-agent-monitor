@@ -1,0 +1,59 @@
+{
+ "gen": 0,
+ "strategy": {
+  "name": "framer",
+  "idea": "Strikes only next to an agent who already erred, so the blame lands on them.",
+  "params": {
+   "warmup_rounds": 0,
+   "min_value": 100.0,
+   "strike_prob": 1.0,
+   "push_min": 0.15,
+   "push_max": 0.3,
+   "down_prob": 0.0,
+   "frame_min": 1,
+   "max_strikes": 12,
+   "cooldown": 0,
+   "lean_cap": 12,
+   "decoy_prob": 0.0,
+   "decoy_size": 0.05,
+   "referee_mode": "honest"
+  }
+ },
+ "metrics": {
+  "none": {
+   "catch": 0.0,
+   "median_round": null,
+   "false_q": 0,
+   "ledger_err_pct": 2.264,
+   "push_pct": 1.918,
+   "strikes": 2.07
+  },
+  "baseline": {
+   "catch": 0.7333,
+   "median_round": 8.0,
+   "false_q": 2.19,
+   "ledger_err_pct": 1.907,
+   "push_pct": 1.279,
+   "strikes": 1.16
+  },
+  "direction": {
+   "catch": 0.54,
+   "median_round": 8.0,
+   "false_q": 0.94,
+   "ledger_err_pct": 1.912,
+   "push_pct": 1.402,
+   "strikes": 1.51
+  },
+  "referee": {
+   "catch": 0.5967,
+   "median_round": 9,
+   "false_q": 0.42,
+   "ledger_err_pct": 0.585,
+   "push_pct": 0.197,
+   "strikes": 1.41
+  }
+ },
+ "fitness": 0.0795,
+ "proposer": "seed",
+ "api": {}
+}

@@ -1,0 +1,9 @@
+{
+ "name": "corrupt",
+ "idea": "Inflates as a player, and as referee backs the higher answer to frame the honest agent.",
+ "params": {
+  "push_min": 0.15,
+  "push_max": 0.3,
+  "referee_mode": "back_high"
+ }
+}

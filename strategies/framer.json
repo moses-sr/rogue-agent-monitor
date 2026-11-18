@@ -1,0 +1,9 @@
+{
+ "name": "framer",
+ "idea": "Strikes only next to an agent who already erred, so the blame lands on them.",
+ "params": {
+  "frame_min": 1,
+  "push_min": 0.15,
+  "push_max": 0.3
+ }
+}

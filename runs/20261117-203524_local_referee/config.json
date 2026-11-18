@@ -1,0 +1,21 @@
+{
+ "proposer": "local",
+ "model": null,
+ "effort": "high",
+ "target": "referee",
+ "iters": 12,
+ "games": 300,
+ "honest_err": 0.15,
+ "rounds": 12,
+ "agents": 5,
+ "start": [
+  "C:\\Users\\user\\AppData\\Local\\Claude-Data\\claude_pzs8sxrjxfjjc\\scratch-workspaces\\f8c50d9a-3da2-489d-ae4c-4ff724942147\\3e05757d-4908-4115-8ac6-1ba6388baf15\\scratch-2026-11-18-01cf58\\rogue-agent-monitor\\strategies\\corrupt.json",
+  "C:\\Users\\user\\AppData\\Local\\Claude-Data\\claude_pzs8sxrjxfjjc\\scratch-workspaces\\f8c50d9a-3da2-489d-ae4c-4ff724942147\\3e05757d-4908-4115-8ac6-1ba6388baf15\\scratch-2026-11-18-01cf58\\rogue-agent-monitor\\strategies\\framer.json",
+  "C:\\Users\\user\\AppData\\Local\\Claude-Data\\claude_pzs8sxrjxfjjc\\scratch-workspaces\\f8c50d9a-3da2-489d-ae4c-4ff724942147\\3e05757d-4908-4115-8ac6-1ba6388baf15\\scratch-2026-11-18-01cf58\\rogue-agent-monitor\\strategies\\mixer.json",
+  "C:\\Users\\user\\AppData\\Local\\Claude-Data\\claude_pzs8sxrjxfjjc\\scratch-workspaces\\f8c50d9a-3da2-489d-ae4c-4ff724942147\\3e05757d-4908-4115-8ac6-1ba6388baf15\\scratch-2026-11-18-01cf58\\rogue-agent-monitor\\strategies\\naive.json",
+  "C:\\Users\\user\\AppData\\Local\\Claude-Data\\claude_pzs8sxrjxfjjc\\scratch-workspaces\\f8c50d9a-3da2-489d-ae4c-4ff724942147\\3e05757d-4908-4115-8ac6-1ba6388baf15\\scratch-2026-11-18-01cf58\\rogue-agent-monitor\\strategies\\patient.json",
+  "C:\\Users\\user\\AppData\\Local\\Claude-Data\\claude_pzs8sxrjxfjjc\\scratch-workspaces\\f8c50d9a-3da2-489d-ae4c-4ff724942147\\3e05757d-4908-4115-8ac6-1ba6388baf15\\scratch-2026-11-18-01cf58\\rogue-agent-monitor\\strategies\\salami.json"
+ ],
+ "guidance": "",
+ "command": "redteam.py evolve --proposer local --iters 12"
+}
