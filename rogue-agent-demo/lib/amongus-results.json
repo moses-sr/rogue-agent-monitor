@@ -1,0 +1,121 @@
+{
+ "dataset": "7vik/AmongUs (amongus-sandbox), four 100-game experiments, Feb 2025",
+ "games": 400,
+ "playerGames": 2697,
+ "impostors": 800,
+ "chance": 0.2857142857142857,
+ "detectors": [
+  {
+   "name": "Talks most",
+   "all": {
+    "games": 400,
+    "playerGames": 2697,
+    "precision": 0.2925,
+    "impostorsFound": 0.2925,
+    "falseAccusationsPerGame": 1.415,
+    "auroc": 0.5238073273589878
+   },
+   "llama-3.3-70b-instruct": {
+    "games": 200,
+    "playerGames": 1359,
+    "precision": 0.4575,
+    "impostorsFound": 0.4575,
+    "falseAccusationsPerGame": 1.085,
+    "auroc": 0.6432833680917622
+   },
+   "phi-4": {
+    "games": 200,
+    "playerGames": 1338,
+    "precision": 0.1275,
+    "impostorsFound": 0.1275,
+    "falseAccusationsPerGame": 1.745,
+    "auroc": 0.38892190831556506
+   },
+   "blurb": "The player who talks most is the suspect."
+  },
+  {
+   "name": "Accuser",
+   "all": {
+    "games": 400,
+    "playerGames": 2697,
+    "precision": 0.25625,
+    "impostorsFound": 0.25625,
+    "falseAccusationsPerGame": 1.4875,
+    "auroc": 0.5034709409594096
+   },
+   "llama-3.3-70b-instruct": {
+    "games": 200,
+    "playerGames": 1359,
+    "precision": 0.3875,
+    "impostorsFound": 0.3875,
+    "falseAccusationsPerGame": 1.225,
+    "auroc": 0.6127411366006257
+   },
+   "phi-4": {
+    "games": 200,
+    "playerGames": 1338,
+    "precision": 0.125,
+    "impostorsFound": 0.125,
+    "falseAccusationsPerGame": 1.75,
+    "auroc": 0.3777372068230277
+   },
+   "blurb": "Counts how often a player casts suspicion on others."
+  },
+  {
+   "name": "Language rules",
+   "all": {
+    "games": 400,
+    "playerGames": 2697,
+    "precision": 0.265,
+    "impostorsFound": 0.265,
+    "falseAccusationsPerGame": 1.47,
+    "auroc": 0.42705917237743807
+   },
+   "llama-3.3-70b-instruct": {
+    "games": 200,
+    "playerGames": 1359,
+    "precision": 0.24,
+    "impostorsFound": 0.24,
+    "falseAccusationsPerGame": 1.52,
+    "auroc": 0.39706204379562043
+   },
+   "phi-4": {
+    "games": 200,
+    "playerGames": 1338,
+    "precision": 0.29,
+    "impostorsFound": 0.29,
+    "falseAccusationsPerGame": 1.42,
+    "auroc": 0.4577785181236674
+   },
+   "blurb": "Hand-written language rules: vague team talk and accusations raise\nsuspicion, concrete first-person claims lower it, per statement."
+  },
+  {
+   "name": "Learned + room reaction",
+   "all": {
+    "games": 400,
+    "playerGames": 2697,
+    "precision": 0.83625,
+    "impostorsFound": 0.83625,
+    "falseAccusationsPerGame": 0.3275,
+    "auroc": 0.9190725487612019
+   },
+   "llama-3.3-70b-instruct": {
+    "games": 200,
+    "playerGames": 1359,
+    "precision": 0.82,
+    "impostorsFound": 0.82,
+    "falseAccusationsPerGame": 0.36,
+    "auroc": 0.8931934306569344
+   },
+   "phi-4": {
+    "games": 200,
+    "playerGames": 1338,
+    "precision": 0.8525,
+    "impostorsFound": 0.8525,
+    "falseAccusationsPerGame": 0.295,
+    "auroc": 0.9380956823027718
+   },
+   "blurb": "Naive Bayes over each player's words plus the room's reaction\n(votes received, accusations received), trained on other games."
+  }
+ ]
+}
