@@ -8,7 +8,7 @@
 
 **First names:** (fill in)
 
-**Statement:** How might we help **companies running teams of AI agents** do **catch an agent that a third party has turned against the team** so that **it is removed before it damages the shared work, without firing honest agents**? Build idea: **C (build a sneakier rogue, then catch it)**. We'll know it worked if **our monitor catches the rogue about as often as the baseline while wrongly removing far fewer honest agents, measured over 12,000 games.**
+**Statement:** How might we help **companies running teams of AI agents** do **catch an agent that a third party has turned against the team** so that **it is removed before it damages the shared work, without firing honest agents**? Build idea: **C (build a sneakier rogue, then catch it)**. We'll know it worked if **our monitor wrongly removes far fewer honest agents than the baseline and keeps the books closer to true, against every rogue, measured over 12,000 games.**
 
 ## Six short answers
 
