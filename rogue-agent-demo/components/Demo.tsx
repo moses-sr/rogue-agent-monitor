@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { MONITORS, ROGUES, buildScriptedGames } from "@/lib/sim";
 import { cellStats, parseGames, scoreGame } from "@/lib/score";
@@ -252,6 +253,7 @@ export default function Demo() {
               : `Scripted agents, no model calls: ${cell?.stats.n ?? 0} games per pairing.`}
           </p>
           <div className="source-actions">
+            <Link href="/">Summary dashboard</Link>
             <button type="button" onClick={() => fileRef.current?.click()}>
               Load a runs file
             </button>

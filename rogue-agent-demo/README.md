@@ -4,6 +4,19 @@ A one-page Next.js site for demoing Track 2. It shows rogue agents of rising
 sneakiness against several monitors on the shared-ledger game from
 `../02-spot-the-rogue-agent.md`.
 
+## Pages
+
+- `/` is the summary dashboard, a port of `../dashboard.html`. Its data is
+  `lib/dashboard-data.json`; rebuild it with
+  `python3 scripts/export_dashboard_data.py` after changing `../sim.py`.
+- `/replay` is the round-by-round replay described below.
+
+## Deploy to Vercel
+
+Import the repository in Vercel and set **Root Directory** to
+`rogue-agent-demo`. The framework preset (Next.js) and the default build
+command need no changes, and no environment variables are used.
+
 ## Run it
 
 ```
