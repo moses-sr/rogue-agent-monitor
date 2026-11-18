@@ -1,0 +1,20 @@
+
+500 mock games per matchup. 5 agents, 12 rounds, honest error rate 15%.
+
+rogue    monitor     caught  median rnd  false q/game  ledger err
+naive    none            0%           -          0.00       4.45%
+naive    baseline       96%           4          2.42       2.75%
+naive    direction      94%           5          1.13       2.53%
+
+patient  none            0%           -          0.00       2.31%
+patient  baseline       72%           9          2.00       2.26%
+patient  direction      46%          10          0.84       2.24%
+
+framer   none            0%           -          0.00       2.24%
+framer   baseline       74%           8          2.12       1.93%
+framer   direction      55%           9          0.91       1.93%
+
+mixer    none            0%           -          0.00       2.25%
+mixer    baseline       97%           4          2.41       2.13%
+mixer    direction      68%           6          1.27       2.14%
+

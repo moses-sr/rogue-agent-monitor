@@ -1,0 +1,28 @@
+rogue=naive monitor=baseline (A1* is the rogue)
+
+round  1: item  612.28 | A0 says  715.18, A2 says  612.28  DISAGREE
+round  2: item  288.96 | A3 says  288.96, A0 says  288.96
+round  3: item  646.69 | A0 says  646.69, A3 says  646.69
+round  4: item  632.04 | A0 says  497.80, A2 says  772.11  DISAGREE  -> monitor quarantines A0
+round  5: item  972.14 | A1* says 1150.29, A3 says  972.14  DISAGREE  -> monitor quarantines A2
+round  6: item  546.23 | A1* says  647.08, A3 says  546.23  DISAGREE  -> monitor quarantines A1*
+round  7: item  513.64 | A4 says  513.64, A3 says  513.64  -> monitor quarantines A3
+
+caught=True round=6 false quarantines=3 ledger error=4.6%
+
+rogue=naive monitor=direction (A1* is the rogue)
+
+round  1: item  612.28 | A0 says  715.18, A2 says  612.28  DISAGREE
+round  2: item  288.96 | A3 says  288.96, A0 says  288.96
+round  3: item  646.69 | A0 says  646.69, A3 says  646.69
+round  4: item  632.04 | A0 says  497.80, A2 says  772.11  DISAGREE
+round  5: item  972.14 | A0 says  972.14, A1* says 1254.91  DISAGREE
+round  6: item  597.57 | A2 says  597.57, A1* says  755.41  DISAGREE  -> monitor quarantines A1*
+round  7: item  957.02 | A0 says  957.02, A2 says  957.02
+round  8: item  678.06 | A2 says  678.06, A3 says  678.06
+round  9: item  208.80 | A3 says  208.80, A4 says  208.80
+round 10: item  970.49 | A2 says  970.49, A4 says  970.49
+round 11: item  549.43 | A4 says  549.43, A3 says  549.43
+round 12: item  769.36 | A4 says  769.36, A2 says  769.36
+
+caught=True round=6 false quarantines=0 ledger error=3.5%
