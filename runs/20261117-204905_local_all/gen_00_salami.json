@@ -1,0 +1,59 @@
+{
+ "gen": 0,
+ "strategy": {
+  "name": "salami",
+  "idea": "Nudges every number up 3 to 8%, inside the range of honest mistakes.",
+  "params": {
+   "warmup_rounds": 0,
+   "min_value": 100.0,
+   "strike_prob": 1.0,
+   "push_min": 0.03,
+   "push_max": 0.08,
+   "down_prob": 0.0,
+   "frame_min": 0,
+   "max_strikes": 12,
+   "cooldown": 0,
+   "lean_cap": 12,
+   "decoy_prob": 0.0,
+   "decoy_size": 0.05,
+   "referee_mode": "push"
+  }
+ },
+ "metrics": {
+  "none": {
+   "catch": 0.0,
+   "median_round": null,
+   "false_q": 0,
+   "ledger_err_pct": 1.494,
+   "push_pct": 0.991,
+   "strikes": 4.6
+  },
+  "baseline": {
+   "catch": 0.96,
+   "median_round": 5.0,
+   "false_q": 2.453,
+   "ledger_err_pct": 1.504,
+   "push_pct": 0.57,
+   "strikes": 2.1
+  },
+  "direction": {
+   "catch": 0.9267,
+   "median_round": 5.0,
+   "false_q": 1.223,
+   "ledger_err_pct": 1.335,
+   "push_pct": 0.571,
+   "strikes": 2.5
+  },
+  "referee": {
+   "catch": 0.94,
+   "median_round": 5.0,
+   "false_q": 0.58,
+   "ledger_err_pct": 0.545,
+   "push_pct": 0.166,
+   "strikes": 2.38
+  }
+ },
+ "fitness": 0.0249,
+ "proposer": "seed",
+ "api": {}
+}

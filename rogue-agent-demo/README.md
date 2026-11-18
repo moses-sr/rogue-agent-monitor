@@ -10,6 +10,12 @@ sneakiness against several monitors on the shared-ledger game from
   `lib/dashboard-data.json`; rebuild it with
   `python3 scripts/export_dashboard_data.py` after changing `../sim.py`.
 - `/replay` is the round-by-round replay described below.
+- `/evolution` shows what `../redteam.py evolve` found: rogue score by
+  generation, how often each monitor catches the best rogue so far, the best
+  evolved strategy's knobs, one game it got away with, and every strategy tried.
+  Its data is `lib/evolution-data.json`; rebuild it after a new run with
+  `python3 scripts/export_evolution.py` (it reads every run under `../runs/`).
+  The home page links to it and shows the latest run's headline numbers.
 
 ## Deploy to Vercel
 

@@ -72,6 +72,8 @@ python redteam.py --honest-err 0.10 eval strategies/salami.json   # change the h
   It only ever chooses knob values for the scripted rogue inside the simulation. The local proposer runs the same loop
   without a key, which makes it a fair yardstick: is Claude better than random search?
 - **Score.** Rogue score = upward push of the books (% of the true total) x share of games not caught, under the target monitor.
+- **See it.** The web demo's `/evolution` page charts every recorded run. After a new run, refresh its data with
+  `python rogue-agent-demo/scripts/export_evolution.py`, then `npm run dev` in `rogue-agent-demo/`.
 
 `pip install -r requirements.txt` is needed only for the Claude proposer; `sim.py` and the local proposer use the
 standard library.

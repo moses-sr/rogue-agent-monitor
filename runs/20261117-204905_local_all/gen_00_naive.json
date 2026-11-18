@@ -1,0 +1,59 @@
+{
+ "gen": 0,
+ "strategy": {
+  "name": "naive",
+  "idea": "Inflates every item it touches, also as referee.",
+  "params": {
+   "warmup_rounds": 0,
+   "min_value": 100.0,
+   "strike_prob": 1.0,
+   "push_min": 0.15,
+   "push_max": 0.3,
+   "down_prob": 0.0,
+   "frame_min": 0,
+   "max_strikes": 12,
+   "cooldown": 0,
+   "lean_cap": 12,
+   "decoy_prob": 0.0,
+   "decoy_size": 0.05,
+   "referee_mode": "push"
+  }
+ },
+ "metrics": {
+  "none": {
+   "catch": 0.0,
+   "median_round": null,
+   "false_q": 0,
+   "ledger_err_pct": 4.346,
+   "push_pct": 4.278,
+   "strikes": 4.6
+  },
+  "baseline": {
+   "catch": 0.96,
+   "median_round": 5.0,
+   "false_q": 2.453,
+   "ledger_err_pct": 2.675,
+   "push_pct": 2.397,
+   "strikes": 2.1
+  },
+  "direction": {
+   "catch": 0.9533,
+   "median_round": 5.0,
+   "false_q": 1.19,
+   "ledger_err_pct": 2.477,
+   "push_pct": 2.288,
+   "strikes": 2.4
+  },
+  "referee": {
+   "catch": 0.9667,
+   "median_round": 5.0,
+   "false_q": 0.523,
+   "ledger_err_pct": 0.891,
+   "push_pct": 0.559,
+   "strikes": 2.16
+  }
+ },
+ "fitness": 0.0738,
+ "proposer": "seed",
+ "api": {}
+}

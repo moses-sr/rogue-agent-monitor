@@ -7,6 +7,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import raw from "@/lib/dashboard-data.json";
+import evo from "@/lib/evolution-data.json";
 import "./books.css";
 
 type Result = {
@@ -68,6 +69,45 @@ const KPIS: [string, string][] = [
     `simulated games behind every number (${D.games} per matchup)`,
   ],
 ];
+
+// The latest `redteam.py evolve` run, for the teaser at the bottom (full view: /evolution).
+type EvoGen = { gen: number; name: string; score: number; metrics: Record<string, { catch: number }> };
+type EvoRun = { gens: EvoGen[]; best_gen: number; best_name: string };
+const EVO_RUNS = (evo as unknown as { runs: EvoRun[] }).runs;
+
+function EvolutionTeaser() {
+  const run = EVO_RUNS[EVO_RUNS.length - 1];
+  if (!run) return null;
+  const start = run.gens.filter((x) => x.gen === 0).reduce((a, b) => (b.score > a.score ? b : a));
+  const best = run.gens.find((x) => x.gen === run.best_gen && x.name === run.best_name) ?? start;
+  const last = Math.max(...run.gens.map((x) => x.gen));
+  const tiles: [string, string][] = [
+    [`${start.score.toFixed(2)} → ${best.score.toFixed(2)}`,
+      `rogue score: best scripted rogue (${start.name}) to the best evolved one, after ${last} generations`],
+    [`${pct(start.metrics.referee.catch)} → ${pct(best.metrics.referee.catch)}`, "how often ours (direction + referee) catches it"],
+    [`${pct(start.metrics.baseline.catch)} → ${pct(best.metrics.baseline.catch)}`, "how often the baseline catches it"],
+  ];
+  return (
+    <>
+      <h2>Evolving a sneakier rogue</h2>
+      <p className="note">
+        We red-teamed our own monitor: every generation proposes a new rogue strategy and
+        scores it against all three monitors on the same games.
+      </p>
+      <div className="kpis">
+        {tiles.map(([n, l]) => (
+          <div className="kpi" key={l}>
+            <div className="n">{n}</div>
+            <div className="l">{l}</div>
+          </div>
+        ))}
+        <div className="kpi cta">
+          <Link href="/evolution">Watch the rogue evolve, generation by generation →</Link>
+        </div>
+      </div>
+    </>
+  );
+}
 
 const W = 560;
 const H = 230;
@@ -233,6 +273,10 @@ export default function Books() {
   return (
     <main className="books">
       <div className="wrap">
+        <nav className="pagenav">
+          <Link href="/replay">Replay games</Link>
+          <Link href="/evolution">Rogue evolution</Link>
+        </nav>
         <h1>Spot the Rogue Agent</h1>
         <p className="sub">
           Five AI agents check the same books. One has been turned by an outside
@@ -360,6 +404,8 @@ export default function Books() {
             </tbody>
           </table>
         </div>
+
+        <EvolutionTeaser />
       </div>
     </main>
   );

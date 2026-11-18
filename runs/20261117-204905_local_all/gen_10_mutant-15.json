@@ -1,0 +1,59 @@
+{
+ "gen": 10,
+ "strategy": {
+  "name": "mutant-15",
+  "idea": "local mutation of mutant-14",
+  "params": {
+   "warmup_rounds": 6,
+   "min_value": 500.0,
+   "strike_prob": 1.0,
+   "push_min": 0.35,
+   "push_max": 0.447,
+   "down_prob": 0.172,
+   "frame_min": 0,
+   "max_strikes": 12,
+   "cooldown": 1,
+   "lean_cap": 12,
+   "decoy_prob": 0.0,
+   "decoy_size": 0.05,
+   "referee_mode": "push"
+  }
+ },
+ "metrics": {
+  "none": {
+   "catch": 0.0,
+   "median_round": null,
+   "false_q": 0,
+   "ledger_err_pct": 2.496,
+   "push_pct": 1.775,
+   "strikes": 1.06
+  },
+  "baseline": {
+   "catch": 0.6667,
+   "median_round": 9.0,
+   "false_q": 2.04,
+   "ledger_err_pct": 2.294,
+   "push_pct": 1.332,
+   "strikes": 0.85
+  },
+  "direction": {
+   "catch": 0.3433,
+   "median_round": 9,
+   "false_q": 0.86,
+   "ledger_err_pct": 2.409,
+   "push_pct": 1.672,
+   "strikes": 1
+  },
+  "referee": {
+   "catch": 0.3533,
+   "median_round": 10.0,
+   "false_q": 0.397,
+   "ledger_err_pct": 1.033,
+   "push_pct": 0.636,
+   "strikes": 1.01
+  }
+ },
+ "fitness": 0.6511,
+ "proposer": "local",
+ "api": {}
+}

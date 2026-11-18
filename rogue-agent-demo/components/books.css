@@ -12,6 +12,27 @@
   padding: 18px 24px 48px;
 }
 
+.books .pagenav {
+  display: flex;
+  gap: 18px;
+  margin: 0 0 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.books .pagenav a,
+.books .kpi.cta a {
+  color: var(--ink);
+}
+
+.books .kpi.cta {
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  font-size: 1.05rem;
+  border-top-color: var(--marker);
+}
+
 .books h1 {
   font-size: clamp(2rem, 3.4vw, 3.4rem);
   font-weight: 800;

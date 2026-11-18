@@ -430,6 +430,8 @@ def cmd_evolve(a):
     print(f"\nbest: gen {best_row['gen']} {best_row['strategy']['name']}  score {best_row['fitness']:.3f}, "
           f"on fresh games {fitness(held, a.target):.3f}")
     print(f"wrote {(run_dir / 'summary.md').relative_to(ROOT)}")
+    if (ROOT / "rogue-agent-demo" / "scripts" / "export_evolution.py").exists():
+        print("to show it on the web demo's /evolution page: python rogue-agent-demo/scripts/export_evolution.py")
 
 
 def cmd_history(a):

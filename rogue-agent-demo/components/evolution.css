@@ -1,0 +1,197 @@
+/* Styles for the /evolution page (components/Evolution.tsx). The page also carries the
+   .books class, so it reuses the home page's type, tabs, cards, KPI tiles and tables.
+   Series colours: one per monitor, checked for colour-blind separation on --paper. */
+
+.evo {
+  --s-baseline: #eb6834;
+  --s-direction: #1baf7a;
+  --s-referee: #2a78d6;
+  --grid: #e3e9df;
+}
+
+.evo .nav {
+  display: flex;
+  gap: 18px;
+  margin: 0 0 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.evo .nav a {
+  color: var(--ink);
+}
+
+.evo .two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.evo .chart {
+  position: relative;
+}
+
+.evo .chart svg {
+  display: block;
+  overflow: visible;
+}
+
+.evo .chart rect:focus {
+  outline: none;
+  fill: var(--ink);
+  fill-opacity: 0.06;
+}
+
+.evo .keys {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  color: var(--graphite);
+  font-size: 0.85rem;
+  margin: 2px 0 4px;
+}
+
+.evo .keys i,
+.evo .tip .k {
+  display: inline-block;
+  width: 16px;
+  height: 2px;
+  border-radius: 1px;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+.evo .meta .dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  margin: 0 3px 0 6px;
+  vertical-align: 0;
+}
+
+.evo .meta .dot:first-child {
+  margin-left: 0;
+}
+
+.evo .dot.red {
+  background: var(--red);
+}
+
+.evo .dot.gray {
+  background: var(--graphite);
+  opacity: 0.5;
+}
+
+.evo .tip {
+  position: absolute;
+  top: 34px;
+  z-index: 2;
+  min-width: 170px;
+  max-width: 280px;
+  pointer-events: none;
+  background: var(--paper);
+  border: 1.5px solid var(--ink);
+  box-shadow: 0 3px 10px rgba(19, 34, 59, 0.14);
+  padding: 6px 9px 7px;
+  font-size: 0.82rem;
+  color: var(--graphite);
+}
+
+.evo .tip .th {
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 3px;
+}
+
+.evo .tip .row {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.evo .tip .row b {
+  font-family: var(--type);
+  color: var(--ink);
+  font-size: 0.92rem;
+  margin-right: 3px;
+}
+
+.evo .tip .row em {
+  font-style: normal;
+  font-weight: 700;
+  color: var(--red);
+}
+
+.evo .tip .muted {
+  border-top: 1px solid var(--rule);
+  margin-top: 3px;
+  padding-top: 3px;
+}
+
+.evo th.l,
+.evo td.l {
+  text-align: left;
+}
+
+.evo tr.cheat td:first-child {
+  box-shadow: inset 5px 0 0 var(--red);
+}
+
+.evo tr.cheat td:nth-child(5) {
+  color: var(--red);
+  font-weight: 700;
+}
+
+.evo td .idea {
+  display: block;
+  min-width: 26ch;
+  max-width: 52ch;
+  white-space: normal;
+  color: var(--graphite);
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  font-weight: 400;
+}
+
+.evo .knobs td:nth-child(2) {
+  font-weight: 700;
+}
+
+.evo tr.changed td:first-child {
+  box-shadow: inset 5px 0 0 var(--marker);
+  font-weight: 700;
+}
+
+.evo tr.changed td:nth-child(2) {
+  text-align: left;
+}
+
+.evo .knobs td.l {
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  color: var(--graphite);
+  min-width: 28ch;
+}
+
+.evo p.note.under {
+  margin-top: 6px;
+}
+
+.evo .cmd {
+  font-family: var(--type);
+  font-size: 0.9rem;
+  background: var(--paper);
+  border: 1.5px solid var(--rule);
+  padding: 10px 14px;
+  margin: 0;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+@media (max-width: 900px) {
+  .evo .two {
+    grid-template-columns: 1fr;
+  }
+}

@@ -254,6 +254,7 @@ export default function Demo() {
           </p>
           <div className="source-actions">
             <Link href="/">Summary dashboard</Link>
+            <Link href="/evolution">Rogue evolution</Link>
             <button type="button" onClick={() => fileRef.current?.click()}>
               Load a runs file
             </button>
