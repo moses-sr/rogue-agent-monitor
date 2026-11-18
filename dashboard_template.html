@@ -63,16 +63,6 @@ svg text{font-family:var(--sans)}
 <h2>All results</h2>
 <p class="note" id="tnote"></p>
 <div class="card"><table id="tbl"></table></div>
-
-<h2>What we learned</h2>
-<div class="card"><ul id="learn"></ul></div>
-<h2>Honest limits</h2>
-<div class="card"><ul>
-<li>Everything is simulated. We chose the honest error rate (15%); different settings change the numbers.</li>
-<li>The Patient rogue still beats us: it stays clean for six rounds and is caught only 46% of the time. Our referee keeps its damage small even when it is not caught.</li>
-<li>The referee costs one extra check on each disagreement, about 5 per game.</li>
-<li>The rogues are scripts, not language models arguing their case.</li>
-</ul></div>
 </div>
 <script>
 const D = __DATA__;
@@ -146,14 +136,5 @@ Object.keys(D.rogues).forEach(r=>mons.forEach(m=>{const s=g(r,m);
 document.getElementById("tbl").innerHTML = t;
 document.getElementById("tnote").textContent = D.games+" mock games per row. 5 agents, "+D.rounds+" rounds, honest agents wrong "+pct(D.honest_err)+" of the time.";
 
-const ln = g("naive","referee"), lb = g("naive","baseline");
-document.getElementById("learn").innerHTML = [
- `The baseline "wins" by firing the team: it removes ${lb.false_q.toFixed(1)} of the 4 honest agents per game. Ours removes ${ln.false_q.toFixed(1)}, and still catches the naive rogue ${pct(ln.catch)} of the time.`,
- `Sabotage has a direction. Honest mistakes go up and down at random; a rogue working for someone pushes one way, and that is what we count.`,
- `The attacker's dilemma: the Mixer hides its direction, and does about half the damage of the Naive rogue (${(g("mixer","none").ledger_err*100).toFixed(1)}% vs ${(g("naive","none").ledger_err*100).toFixed(1)}%). To do harm it has to show a direction.`,
- `The referee cuts the damage even when the rogue is not caught: with the Patient rogue the books end up ${(g("patient","referee").ledger_err*100).toFixed(1)}% off instead of ${(g("patient","baseline").ledger_err*100).toFixed(1)}%, because a disputed item takes the middle of three answers.`,
- `The Salami Slicer stays inside the size of honest mistakes, but always the same way, so we still catch it ${pct(g("salami","referee").catch)} of the time.`,
- `The Corrupt Referee tries to attack our fix by lying when picked as referee. It barely helps: it is picked rarely, and its own answers as a player give it away (${pct(g("corrupt","referee").catch)} caught).`
-].map(x=>`<li>${x}</li>`).join("");
 render();
 </script></body></html>
