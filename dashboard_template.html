@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Spot the Rogue Agent</title>
+<style>
+:root{--bg:#0f1115;--panel:#171a21;--line:#2a2f3a;--text:#e6e8ec;--muted:#8b93a3;--good:#3ccf91;--bad:#ff5d5d;--warn:#f5b84b;--accent:#d97757}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px/1.5 -apple-system,BlinkMacSystemFont,"Inter",system-ui,sans-serif}
+.wrap{max-width:1240px;margin:0 auto;padding:28px 22px 60px}
+h1{font-size:28px;margin:0 0 4px;letter-spacing:-.02em}.sub{color:var(--muted);margin:0 0 22px;max-width:900px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi .n{font-size:28px;font-weight:700;letter-spacing:-.02em}.kpi .l{color:var(--muted);font-size:12.5px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 10px}
+.tab{background:var(--panel);border:1px solid var(--line);color:var(--text);padding:8px 14px;border-radius:999px;cursor:pointer;font-size:13px}
+.tab.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.desc{color:var(--muted);margin:0 0 14px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}
+.card h3{margin:0 0 2px;font-size:15px}.card .meta{color:var(--muted);font-size:12.5px;margin-bottom:8px}
+.verdict{font-weight:600;font-size:13px;margin-top:8px}
+.ctrl{display:flex;align-items:center;gap:12px;margin:14px 0}
+button.play{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:8px 16px;font-weight:600;cursor:pointer}
+input[type=range]{flex:1;accent-color:var(--accent)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin:6px 0 0}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:right}
+th:first-child,td:first-child,th:nth-child(2),td:nth-child(2){text-align:left}th{color:var(--muted);font-weight:500}
+tr.ours td{background:rgba(217,119,87,.08)}.good{color:var(--good)}.bad{color:var(--bad)}
+h2{font-size:18px;margin:30px 0 10px}.note{color:var(--muted);font-size:12.5px}
+.lean{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:8px}
+.lean div{background:#11141a;border:1px solid var(--line);border-radius:8px;padding:6px;text-align:center;font-size:12px}
+.lean b{display:block;font-size:16px}
+ul{margin:6px 0;padding-left:18px}li{margin:3px 0}
+</style></head><body><div class="wrap">
+<h1>Spot the Rogue Agent</h1>
+<p class="sub">Five AI agents check the same books. One has been turned by an outside party and quietly pushes the numbers. Honest agents make real mistakes too, so being wrong once proves nothing. The monitor never sees the true number. We built six saboteurs, each sneakier than the last, and two monitors to beat the organizers' baseline.</p>
+<div class="kpis" id="kpis"></div>
+
+<h2>Watch one game</h2>
+<div class="tabs" id="tabs"></div>
+<p class="desc" id="rdesc"></p>
+<div class="ctrl"><button class="play" id="play">Play</button><input type="range" id="slider" min="1" max="12" value="12"><span id="rlabel" class="note"></span></div>
+<div class="grid" id="games"></div>
+<div class="legend"><span><i style="background:var(--bad)"></i>the rogue</span><span><i style="background:#7aa2ff"></i>honest agents</span><span><i style="background:var(--warn)"></i>referee</span><span>dots above the line: answer too high, below: too low</span><span>&#x2715; quarantined</span></div>
+
+<h2>All results</h2>
+<p class="note" id="tnote"></p>
+<div class="card"><table id="tbl"></table></div>
+
+<h2>What we learned</h2>
+<div class="card"><ul id="learn"></ul></div>
+<h2>Honest limits</h2>
+<div class="card"><ul>
+<li>Everything is simulated. We chose the honest error rate (15%); different settings change the numbers.</li>
+<li>The Patient rogue still beats us: it stays clean for six rounds and is caught only 46% of the time. Our referee keeps its damage small even when it is not caught.</li>
+<li>The referee costs one extra check on each disagreement, about 5 per game.</li>
+<li>The rogues are scripts, not language models arguing their case.</li>
+</ul></div>
+</div>
+<script>
+const D = __DATA__;
+const R = D.results, M = ["baseline","referee"], pct = x => (x*100).toFixed(0)+"%";
+const g = (r,m) => R[r+"|"+m];
+// KPIs: naive rogue, baseline vs ours
+const avg = (m,k) => Object.keys(D.rogues).reduce((s,r)=>s+g(r,m)[k],0)/Object.keys(D.rogues).length;
+document.getElementById("kpis").innerHTML = [
+ [avg("referee","false_q").toFixed(1)+" vs "+avg("baseline","false_q").toFixed(1), "honest agents wrongly removed per game: ours vs the baseline, out of 4"],
+ [(avg("referee","ledger_err")*100).toFixed(1)+"%", "how far the books end up off with ours (baseline "+(avg("baseline","ledger_err")*100).toFixed(1)+"%, no monitor "+(avg("none","ledger_err")*100).toFixed(1)+"%)"],
+ [pct(avg("referee","catch")), "rogues caught by ours, averaged over 6 saboteurs (baseline "+pct(avg("baseline","catch"))+", by firing half the team)"],
+ [(D.games*24).toLocaleString(), "simulated games behind every number ("+D.games+" per matchup)"]
+].map(([n,l])=>`<div class="kpi"><div class="n">${n}</div><div class="l">${l}</div></div>`).join("");
+
+let cur = "naive", step = 12, timer = null;
+const tabs = document.getElementById("tabs");
+tabs.innerHTML = Object.entries(D.rogues).map(([k,v])=>`<button class="tab" data-k="${k}">${v.label}</button>`).join("");
+tabs.onclick = e => { if(e.target.dataset.k){ cur=e.target.dataset.k; step=12; render(); } };
+
+function svgGame(game){
+  const W=560,H=230,pad=34, rows=game.rounds, n=D.rounds;
+  const x = r => pad + (r-1)*(W-pad*2)/(n-1);
+  const y = d => H/2 - Math.max(-40,Math.min(40,d))*(H/2-18)/40;
+  let s = `<svg viewBox="0 0 ${W} ${H}" width="100%"><line x1="${pad}" x2="${W-pad}" y1="${H/2}" y2="${H/2}" stroke="#3a4150"/>`;
+  [20,-20].forEach(d=>s+=`<line x1="${pad}" x2="${W-pad}" y1="${y(d)}" y2="${y(d)}" stroke="#20242d" stroke-dasharray="3 4"/><text x="4" y="${y(d)+4}" fill="#5d6574" font-size="10">${d>0?"+":""}${d}%</text>`);
+  s += `<text x="4" y="${H/2+4}" fill="#5d6574" font-size="10">true</text>`;
+  for(let r=1;r<=n;r++) s+=`<text x="${x(r)}" y="${H-4}" fill="#5d6574" font-size="10" text-anchor="middle">${r}</text>`;
+  let qi=0;
+  rows.filter(o=>o.r<=step).forEach(o=>{
+    [[o.a,o.ans_a],[o.b,o.ans_b]].forEach(([ag,val],i)=>{
+      const d=(val-o.v)/o.v*100, rogue=ag===game.rogue, cx=x(o.r)+(i?5:-5);
+      s+=`<circle cx="${cx}" cy="${y(d)}" r="${rogue?6:4.5}" fill="${rogue?"var(--bad)":"#7aa2ff"}" opacity="${rogue?1:.85}"><title>A${ag}${rogue?" (rogue)":""}: ${val} vs true ${o.v}</title></circle>`;
+      if(Math.abs(d)>0.01) s+=`<line x1="${cx}" x2="${cx}" y1="${H/2}" y2="${y(d)}" stroke="${rogue?"var(--bad)":"#7aa2ff"}" opacity=".35"/>`;
+    });
+    if(o.ref!==null){const d=(o.ref_ans-o.v)/o.v*100; s+=`<rect x="${x(o.r)-3.5}" y="${y(d)-3.5}" width="7" height="7" fill="var(--warn)" transform="rotate(45 ${x(o.r)} ${y(d)})"><title>referee A${o.ref}</title></rect>`;}
+    if(o.q!==null) s+=`<text x="${x(o.r)}" y="${14+(qi++%2)*14}" fill="${o.q===game.rogue?"var(--good)":"var(--bad)"}" font-size="12" font-weight="700" text-anchor="middle">&#x2715; A${o.q}${o.q===game.rogue?" rogue":" honest"}</text>`;
+  });
+  return s+"</svg>";
+}
+function card(m){
+  const game = D.showcase[cur][m], seen = game.rounds.filter(o=>o.r<=step), last = seen[seen.length-1] || game.rounds[0];
+  const removed = seen.filter(o=>o.q!==null).map(o=>o.q);
+  const caught = removed.includes(game.rogue), honest = removed.filter(a=>a!==game.rogue).length;
+  const ended = game.rounds.length < D.rounds && step >= game.rounds.length;
+  const lean = [0,1,2,3,4].map(a=>{const v=last.lean[a]; const out=removed.includes(a);
+    return `<div style="${a===game.rogue?"border-color:var(--bad)":""};${out?"opacity:.45":""}">A${a}${a===game.rogue?" rogue":""}<b style="color:${v>0?"var(--bad)":v<0?"#7aa2ff":"var(--muted)"}">${v>0?"+":""}${v}</b>${out?"removed":"lean"}</div>`}).join("");
+  const label = m==="baseline" ? "Baseline: two strikes and out" : "Ours: direction + referee";
+  const how = m==="baseline" ? "Both agents in any disagreement get a strike." : "Counts who is always the high one, and asks a third agent to redo disputed items.";
+  return `<div class="card"><h3>${label}</h3><div class="meta">${how}</div>${svgGame(game)}
+   <div class="note">Lean = times the agent was the higher answer minus times it was the lower one, in disagreements.</div><div class="lean">${lean}</div>
+   <div class="verdict">${caught?'<span class="good">Rogue removed</span>':'<span class="bad">Rogue still in</span>'} &middot; ${honest} honest agent${honest===1?"":"s"} wrongly removed &middot; books off by ${Math.abs(last.drift).toFixed(1)}%${ended?' &middot; <span class="bad">team wiped out, game over</span>':""}</div></div>`;
+}
+function render(){
+  [...tabs.children].forEach(b=>b.classList.toggle("on",b.dataset.k===cur));
+  document.getElementById("rdesc").textContent = D.rogues[cur].desc + " Same game, same starting draw, two different monitors.";
+  document.getElementById("slider").value = step;
+  document.getElementById("rlabel").textContent = "round "+step+" of "+D.rounds;
+  document.getElementById("games").innerHTML = M.map(card).join("");
+}
+document.getElementById("slider").oninput = e => { step=+e.target.value; render(); };
+document.getElementById("play").onclick = () => {
+  clearInterval(timer); step=0; render();
+  timer = setInterval(()=>{ step++; render(); if(step>=D.rounds) clearInterval(timer); }, 650);
+};
+
+// table
+const mons = ["none","baseline","direction","referee"];
+let t = `<tr><th>Rogue</th><th>Monitor</th><th>Rogue caught</th><th>Round caught</th><th>Honest removed per game</th><th>Books off by</th><th>Extra checks</th></tr>`;
+Object.keys(D.rogues).forEach(r=>mons.forEach(m=>{const s=g(r,m);
+  t+=`<tr class="${m==="referee"?"ours":""}"><td>${m==="none"?"<b>"+D.rogues[r].label+"</b>":""}</td><td>${D.monitors[m]}</td><td>${m==="none"?"":pct(s.catch)}</td><td>${s.median_round??""}</td><td>${m==="none"?"":s.false_q.toFixed(2)}</td><td>${(s.ledger_err*100).toFixed(2)}%</td><td>${s.checks?s.checks.toFixed(1):""}</td></tr>`;}));
+document.getElementById("tbl").innerHTML = t;
+document.getElementById("tnote").textContent = D.games+" mock games per row. 5 agents, "+D.rounds+" rounds, honest agents wrong "+pct(D.honest_err)+" of the time.";
+
+const ln = g("naive","referee"), lb = g("naive","baseline");
+document.getElementById("learn").innerHTML = [
+ `The baseline "wins" by firing the team: it removes ${lb.false_q.toFixed(1)} of the 4 honest agents per game. Ours removes ${ln.false_q.toFixed(1)}, and still catches the naive rogue ${pct(ln.catch)} of the time.`,
+ `Sabotage has a direction. Honest mistakes go up and down at random; a rogue working for someone pushes one way, and that is what we count.`,
+ `The attacker's dilemma: the Mixer hides its direction, and does about half the damage of the Naive rogue (${(g("mixer","none").ledger_err*100).toFixed(1)}% vs ${(g("naive","none").ledger_err*100).toFixed(1)}%). To do harm it has to show a direction.`,
+ `The referee cuts the damage even when the rogue is not caught: with the Patient rogue the books end up ${(g("patient","referee").ledger_err*100).toFixed(1)}% off instead of ${(g("patient","baseline").ledger_err*100).toFixed(1)}%, because a disputed item takes the middle of three answers.`,
+ `The Salami Slicer stays inside the size of honest mistakes, but always the same way, so we still catch it ${pct(g("salami","referee").catch)} of the time.`,
+ `The Corrupt Referee tries to attack our fix by lying when picked as referee. It barely helps: it is picked rarely, and its own answers as a player give it away (${pct(g("corrupt","referee").catch)} caught).`
+].map(x=>`<li>${x}</li>`).join("");
+render();
+</script></body></html>
